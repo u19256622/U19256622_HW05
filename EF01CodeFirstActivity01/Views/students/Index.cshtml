@@ -1,0 +1,89 @@
+﻿@model IEnumerable<ClassActivity.Models.StudentList>
+
+@{
+    ViewBag.Title = "Index";
+}
+<head>
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css">
+    <script type="text/javascript" language="javascript" src="https://code.jquery.com/jquery-3.3.1.js"></script>
+    <script type="text/javascript" language="javascript" src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.css">
+
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.js"></script>
+</head>
+<h2>Students</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table"> 
+    <thead>
+        <tr>
+            <th>
+               #
+            </th>
+            <th>
+                Name
+            </th>
+            <th>
+                Surname
+            </th>
+            <th>
+                Class
+            </th>
+            <th>
+                Point
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Student.studentId)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Student.name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Student.surname)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Student.@class)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Student.point)
+                    </td>
+                    <td>
+                        @if (item.Student.studentId == Convert.ToInt32(ViewBag.booked))
+                        {
+                            @Html.ActionLink("Return Book", "ReturnBook", new { id = item.Student.studentId }, new { @class = "btn btn-primary" })
+                        }
+                        else if (ViewBag.booked==null)
+                        {
+                            @Html.ActionLink("Borrow Book", "BorrowBook", new { id = item.Student.studentId }, new { @class = "btn btn-primary" })
+                        }
+                        else { }
+                        
+                    </td>
+                </tr>
+            }
+            
+        
+    </tbody>
+</table>
+<script>
+    var table = $('#table').DataTable();
+
+    $('#table tbody').on('click', "input[type='button']", function () {
+        console.log(table.row($(this).parents('tr')));
+
+        table
+            .row($(this).parents('tr'))
+            .remove()
+            .draw();
+    });
+</script>

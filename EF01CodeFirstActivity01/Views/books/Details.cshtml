@@ -1,0 +1,65 @@
+﻿@model ClassActivity.Models.BooksDetailsViewModel
+
+@{
+    ViewBag.Title = "Details";
+}
+<head>
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css">
+    <script type="text/javascript" language="javascript" src="https://code.jquery.com/jquery-3.3.1.js"></script>
+    <script type="text/javascript" language="javascript" src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.css">
+
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.js"></script>
+</head>
+
+<h1>Details</h1>
+
+<div>
+    <h1>@Model.name </h1> @if (Model.status == "Available")
+    {
+
+        <h1 style="color:green">Book Available</h1>}
+    else
+    {<h1 style="color:red">Book Out</h1>}
+    <hr />
+    <h2 style="display:inline-block"># Borrows - @Model.numborrows</h2>
+    <button class="btn btn-danger" style="margin-left:50%">
+        @Html.ActionLink("Students", "Index","students", new { id = Model.id }, new { @class = " btn btn-danger" })
+    </button>
+    <hr />
+    <table id="table" class="table">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Taken date</th>
+                <th>Brought Date</th>
+                <th>Borrowed by</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Borrows)
+            {
+                <tr>
+                    <td>@item.borrowId</td>
+                    <td>@item.takenDate</td>
+                    <td>@item.broughtDate</td>
+                    <td>@item.student.name @item.student.surname</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+
+<script>
+    var table = $('#table').DataTable();
+
+    $('#table tbody').on('click', "input[type='button']", function () {
+        console.log(table.row($(this).parents('tr')));
+
+        table
+            .row($(this).parents('tr'))
+            .remove()
+            .draw();
+    });
+</script>

@@ -1,0 +1,75 @@
+﻿@model IEnumerable<ClassActivity.Models.borrow>
+
+@{
+    ViewBag.Title = "Index";
+}
+<head>
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css">
+    <script type="text/javascript" language="javascript" src="https://code.jquery.com/jquery-3.3.1.js"></script>
+    <script type="text/javascript" language="javascript" src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.css">
+
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.js"></script>
+</head>
+<h2>Books</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.takenDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.broughtDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.book.name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.student.name)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.takenDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.broughtDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.book.name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.student.name)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.borrowId }) |
+                    @Html.ActionLink("Details", "Details", new { id = item.borrowId }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = item.borrowId })
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+<script>
+    var table = $('#table').DataTable();
+
+    $('#table tbody').on('click', "input[type='button']", function () {
+        console.log(table.row($(this).parents('tr')));
+
+        table
+            .row($(this).parents('tr'))
+            .remove()
+            .draw();
+    });
+</script>
